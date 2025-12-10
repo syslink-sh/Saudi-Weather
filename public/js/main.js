@@ -311,7 +311,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 hoverTimeout = setTimeout(async () => {
                     try {
-                        const response = await fetch(`/api/weather?lat=${lat}&lon=${lng}`);
+                        const apiBase = window.appConfig?.apiBaseUrl || '/api';
+                        const response = await fetch(`${apiBase}/weather?lat=${lat}&lon=${lng}`);
                         if (!response.ok) return;
                         const data = await response.json();
                         const desc = data.weather[0].description;
@@ -418,7 +419,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const fetchWeather = async (lat, lon, name) => {
         globalLoader.classList.remove('hidden');
         try {
-            const response = await fetch(`/api/weather?lat=${lat}&lon=${lon}`);
+            const apiBase = window.appConfig?.apiBaseUrl || '/api';
+            const response = await fetch(`${apiBase}/weather?lat=${lat}&lon=${lon}`);
             if (!response.ok) throw new Error('Weather data unavailable');
             
             const data = await response.json();

@@ -3,9 +3,25 @@ const path = require('path');
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
+const config = require('./config');
 
 const app = express();
-const PORT = process.env.NODE_ENV === 'production' ? 5150 : 3005;
+const PORT = config.server.port;
+
+// CORS configuration for separate frontend hosting
+const corsOptions = {
+    origin: function (origin, callback) {
+        // Allow requests with no origin (mobile apps, curl, etc.)
+        if (!origin) return callback(null, true);
+        
+        if (config.cors.allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+    credentials: true,
+};
 
 app.use(helmet({
     contentSecurityPolicy: {
@@ -19,7 +35,7 @@ app.use(helmet({
         },
     },
 }));
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

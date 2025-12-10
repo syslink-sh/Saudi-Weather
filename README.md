@@ -24,3 +24,51 @@ Rainy is a beautiful, fast, and immersive weather application that provides real
    npm run dev
    ```
 4. Website will be on `http://localhost:3005`. ( For production website will be on `http://localhost:5150`)
+
+## Configuration
+
+Rainy supports separate hosting for the frontend and backend.
+
+### Frontend Configuration (`public/js/config.js`)
+
+```javascript
+const config = {
+    // API server URL - update for production
+    apiBaseUrl: 'https://api.rainy.syslink.dev/api',
+    
+    // Default location fallback
+    defaultLocation: {
+        lat: 40.7128,
+        lng: -74.0060,
+        city: 'New York',
+    },
+    
+    // Search settings
+    searchDebounce: 150,
+    
+    // Map settings
+    map: {
+        defaultZoom: 6,
+        minZoom: 3,
+        maxZoom: 10,
+    },
+};
+```
+
+### Server Configuration (`server/config.js`)
+
+```javascript
+module.exports = {
+    server: {
+        port: 5150,  // Production port
+    },
+    cors: {
+        allowedOrigins: [
+            'https://rainy.syslink.dev',
+            // Add your frontend domains
+        ],
+    },
+};
+```
+
+See [server/README.md](server/README.md) for more server configuration options.

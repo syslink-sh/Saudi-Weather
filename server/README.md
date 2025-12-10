@@ -5,8 +5,36 @@ This directory contains the backend code for the Rainy websites.
 ## Structure
 
 - `server.js`: The main entry point for the Express server.
+- `config.js`: Server configuration (ports, CORS, rate limiting).
 - `controllers/`: Contains logic for handling API requests (fetching data from Open-Meteo, RainViewer, etc.).
 - `routes/`: Defines the API endpoints.
+
+## Configuration
+
+Edit `config.js` to customize the server:
+
+```javascript
+module.exports = {
+    server: {
+        port: 3005,  // Development: 3005, Production: 5150
+    },
+    cors: {
+        allowedOrigins: [
+            'http://localhost:3005',
+            'https://rainy.syslink.dev',
+            // Add your frontend domain here
+        ],
+    },
+};
+```
+
+### Environment Variables
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `PORT` | Server port | 3005 (dev) / 5150 (prod) |
+| `NODE_ENV` | Environment mode | development |
+| `ALLOWED_ORIGINS` | Comma-separated list of allowed CORS origins | localhost, rainy.syslink.dev |
 
 ## API Endpoints
 
