@@ -1,27 +1,50 @@
 // Frontend Configuration
 const config = {
-    // API Base URL - change this when hosting separately
-    apiBaseUrl: window.location.hostname === 'localhost' 
-        ? `http://localhost:3005/api`
-        : 'https://rainy-api.syslink.dev/api', // Change to your API server URL
-    
+    // API Base URL - automatically detects environment
+    apiBaseUrl: (() => {
+        const { hostname, port, protocol } = window.location;
+        
+        // Local development
+        if (hostname === 'localhost' || hostname === '127.0.0.1') {
+            return `${protocol}//${hostname}:${port || 3005}/api`;
+        }
+        
+        // Production - same origin (server serves both API and static)
+        return '/api';
+    })(),
+
     // Default location (fallback if geolocation fails)
     defaultLocation: {
         lat: 40.7128,
-        lng: -74.0060,
+        lon: -74.0060,
         city: 'New York',
+        country: 'United States',
     },
 
-    // Search debounce delay (ms)
+    // Search settings
     searchDebounce: 150,
+    searchMinLength: 2,
 
     // Map settings
     map: {
         defaultZoom: 6,
         minZoom: 3,
-        maxZoom: 10,
+        maxZoom: 12,
+        tileLayer: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    },
+
+    // UI settings
+    ui: {
+        loaderTimeout: 500,
+        errorToastDuration: 3000,
+        hoverPopupDelay: 600,
     },
 };
 
 // Make it available globally
 window.appConfig = config;
+
+// Debug logging in development
+if (window.location.hostname === 'localhost') {
+    console.log('🌦️ Rainy Config:', config);
+}

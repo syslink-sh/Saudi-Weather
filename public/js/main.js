@@ -467,7 +467,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         searchTimeout = setTimeout(async () => {
             try {
-                const response = await fetch(`/api/search?q=${encodeURIComponent(query)}`);
+                const apiBase = window.appConfig?.apiBaseUrl || '/api';
+                const response = await fetch(`${apiBase}/search?q=${encodeURIComponent(query)}`);
                 if (!response.ok) return;
                 
                 const locations = await response.json();
@@ -534,7 +535,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 let cityName = "Current Location";
                 let countryName = "";
                 try {
-                    const geoResp = await fetch(`/api/reverse-geocode?lat=${latitude}&lon=${longitude}`);
+                    const apiBase = window.appConfig?.apiBaseUrl || '/api';
+                    const geoResp = await fetch(`${apiBase}/reverse-geocode?lat=${latitude}&lon=${longitude}`);
                     if (geoResp.ok) {
                         const geoData = await geoResp.json();
                         cityName = geoData.name;

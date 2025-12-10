@@ -1,9 +1,10 @@
 {
   "name": "rainy",
   "version": "1.0.0",
-  "bugs": {
+    "bugs": {
     "url": "https://github.com/syslink-sh/rainy/issues"
   },
+  "homepage": "https://rainy.syslink.dev",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/syslink-sh/rainy.git"
@@ -12,18 +13,21 @@
   "author": "SySLink",
   "type": "commonjs",
   "main": "server/server.js",
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "scripts": {
     "start": "node server/server.js",
     "dev": "nodemon server/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "express": "^4.18.2",
+    "axios": "^1.6.2",
     "cors": "^2.8.5",
+    "express": "^4.18.2",
     "helmet": "^7.1.0",
-    "morgan": "^1.10.0",
-    "axios": "^1.4.0"
-    },
+    "morgan": "^1.10.0"
+  },
   "devDependencies": {
     "nodemon": "^3.0.2"
   }
