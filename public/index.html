@@ -3,74 +3,160 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rainy - Weather App</title>
+    <meta name="description" content="Rainy - A beautiful and fast weather application providing real-time forecasts.">
+    <meta name="keywords" content="weather, forecast, rain, temperature, humidity, wind, radar, precipitation">
+    <meta name="author" content="SySLink">
+    <meta name="theme-color" content="#4facfe">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://rainy.syslink.dev/">
+    <meta property="og:title" content="Rainy - Weather App">
+    <meta property="og:description" content="A beautiful and fast weather application providing real-time forecasts.">
+    <meta property="og:image" content="https://rainy.syslink.dev/og-image.png">
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://rainy.syslink.dev/">
+    <meta name="twitter:title" content="Rainy - Weather App">
+    <meta name="twitter:description" content="A beautiful and fast weather application providing real-time forecasts.">
+    <meta name="twitter:image" content="https://rainy.syslink.dev/og-image.png">
+    
+    <title>Rainy</title>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preload" href="css/style.css" as="style">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌦️</text></svg>">
 </head>
 <body>
-    <div class="background-blobs">
-        <div class="blob blob-1"></div>
-        <div class="blob blob-2"></div>
+    <div id="global-loader" class="global-loader">
+        <div class="loader-content">
+            <div class="spinner-large"></div>
+            <h2>Loading Weather...</h2>
+        </div>
     </div>
 
-    <div class="glass-container">
+    <div id="weather-bg" class="weather-bg clear">
+        <div class="bg-layer layer-1"></div>
+        <div class="bg-layer layer-2"></div>
+        <div class="bg-layer layer-3"></div>
+    </div>
+
+    <div class="app-container">
         <header>
-            <div class="icon-container">
-                <!-- SVG from design spec -->
-                <svg width="96" height="96" viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                        <linearGradient id="sunGradient" x1="60" y1="18" x2="60" y2="54" gradientUnits="userSpaceOnUse">
-                            <stop offset="0%" stop-color="#FFD700" />
-                            <stop offset="100%" stop-color="#FFA500" />
-                        </linearGradient>
-                        <linearGradient id="cloudGradient" x1="48" y1="32" x2="48" y2="76" gradientUnits="userSpaceOnUse">
-                            <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.98" />
-                            <stop offset="100%" stop-color="#F0F4F8" stop-opacity="0.95" />
-                        </linearGradient>
-                        <filter id="sunBlur" x="25" y="1" width="70" height="70" filterUnits="userSpaceOnUse">
-                            <feGaussianBlur stdDeviation="4" result="blur"/>
-                            <feColorMatrix in="blur" type="matrix" values="0 0 0 0 1  0 0 0 0 0.647  0 0 0 0 0  0 0 0 0.4 0"/>
-                            <feBlend mode="normal" in2="SourceGraphic"/>
-                        </filter>
-                        <filter id="cloudShadow" x="0" y="0" width="96" height="96" filterUnits="userSpaceOnUse">
-                            <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#334155" flood-opacity="0.2"/>
-                        </filter>
-                    </defs>
-                    <g filter="url(#sunBlur)">
-                        <g stroke="#FFA500" stroke-width="3" stroke-linecap="round">
-                            <line x1="60" y1="12" x2="60" y2="6" />
-                            <line x1="60" y1="60" x2="60" y2="66" />
-                            <line x1="36" y1="36" x2="30" y2="36" />
-                            <line x1="84" y1="36" x2="90" y2="36" />
-                            <line x1="43" y1="19" x2="39" y2="15" />
-                            <line x1="77" y1="19" x2="81" y2="15" />
-                            <line x1="43" y1="53" x2="39" y2="57" />
-                            <line x1="77" y1="53" x2="81" y2="57" />
-                        </g>
-                        <circle cx="60" cy="36" r="18" fill="url(#sunGradient)" />
-                    </g>
-                    <g filter="url(#cloudShadow)">
-                        <path d="M28 76C19.1634 76 12 68.8366 12 60C12 51.1634 19.1634 44 28 44C28.5 44 29.5 44.1 30.5 44.2C32.1 37.6 39.5 32 48 32C57.5 32 65.5 38.5 67.5 46.5C67.8 46.5 68.2 46.5 68.5 46.5C76.5 46.5 83 53 83 61C83 69 76.5 76 68.5 76H28Z" 
-                              fill="url(#cloudGradient)" 
-                              stroke="#FFFFFF" 
-                              stroke-width="1"
-                        />
-                    </g>
-                </svg>
+            <div class="header-left">
+                <a href="/" class="logo-link">
+                    <span class="logo-icon">🌦️</span>
+                    <span class="logo-text">Rainy</span>
+                </a>
+                <div class="search-container">
+                    <div class="search-bar">
+                        <input type="text" id="search-input" placeholder="Search city..." autocomplete="off">
+                        <button id="search-btn"><i class="fas fa-search"></i></button>
+                    </div>
+                    <div id="search-results" class="search-results"></div>
+                </div>
             </div>
-            <h1>Rainy</h1>
-            <p>Local Weather</p>
+            <div class="location-display">
+                <h2 id="city-name">Loading...</h2>
+                <p id="country-name"></p>
+                <p id="current-time">--:--</p>
+                <p id="date-display">--</p>
+            </div>
         </header>
         
         <main>
-            <div class="weather-info" id="weather-container">
-                <div class="loading">
-                    <p>Acquiring location...</p>
+            <div class="weather-main">
+                <div class="icon-wrapper" id="weather-icon-container">
+                </div>
+                <div class="temp-wrapper">
+                    <h1 id="temp">--</h1>
+                    <p id="description">--</p>
                 </div>
             </div>
-            <div class="error-message" id="error-message" style="display: none;"></div>
-            <button id="refresh-btn">Refresh Location</button>
+
+            <div class="weather-details">
+                <div class="detail-card">
+                    <i class="fas fa-temperature-high"></i>
+                    <div>
+                        <span class="label">Feels Like</span>
+                        <span class="value" id="feels-like">--</span>
+                    </div>
+                </div>
+                <div class="detail-card">
+                    <i class="fas fa-wind"></i>
+                    <div>
+                        <span class="label">Wind</span>
+                        <span class="value" id="wind-speed">-- km/h</span>
+                    </div>
+                </div>
+                <div class="detail-card">
+                    <i class="fas fa-tint"></i>
+                    <div>
+                        <span class="label">Humidity</span>
+                        <span class="value" id="humidity">--%</span>
+                    </div>
+                </div>
+                <div class="detail-card">
+                    <i class="fas fa-compress-arrows-alt"></i>
+                    <div>
+                        <span class="label">Pressure</span>
+                        <span class="value" id="pressure">-- hPa</span>
+                    </div>
+                </div>
+                <div class="detail-card">
+                    <i class="fas fa-eye"></i>
+                    <div>
+                        <span class="label">Visibility</span>
+                        <span class="value" id="visibility">-- km</span>
+                    </div>
+                </div>
+                <div class="detail-card">
+                    <i class="fas fa-cloud-rain"></i>
+                    <div>
+                        <span class="label">Precipitation</span>
+                        <span class="value" id="precipitation">-- mm</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="radar-container">
+                <h3>Weather Radar</h3>
+                <div class="map-wrapper">
+                    <div id="radar-map"></div>
+                    <div id="map-loader" class="map-loader">
+                        <div class="spinner"></div>
+                        <p>Loading Radar...</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="forecast-container">
+                <div class="hourly-forecast">
+                    <h3>Hourly Forecast</h3>
+                    <div class="hourly-scroll" id="hourly-forecast">
+                        <!-- Hourly items injected here -->
+                    </div>
+                </div>
+                
+                <div class="daily-forecast">
+                    <h3>7-Day Forecast</h3>
+                    <div class="daily-list" id="daily-forecast">
+                        <!-- Daily items injected here -->
+                    </div>
+                </div>
+            </div>
         </main>
+
+        <div class="error-toast" id="error-toast"></div>
+
+        <footer class="app-footer">
+            <p>Made By <a href="https://github.com/syslink-sh" target="_blank" rel="noopener noreferrer">SySLink</a></p>
+        </footer>
     </div>
-    <script src="js/main.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+    <script src="js/main.js" defer></script>
 </body>
 </html>
