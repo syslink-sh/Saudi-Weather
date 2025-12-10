@@ -3,7 +3,7 @@ const config = {
     // API Base URL - change this when hosting separately
     apiBaseUrl: window.location.hostname === 'localhost' 
         ? `http://localhost:3005/api`
-        : 'https://api.rainy.syslink.dev/api', // Change to your API server URL
+        : 'https://rainy-api.syslink.dev/api', // Change to your API server URL
     
     // Default location (fallback if geolocation fails)
     defaultLocation: {
