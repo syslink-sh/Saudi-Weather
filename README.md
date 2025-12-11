@@ -206,6 +206,9 @@ Project Link: [https://github.com/syslink-sh/rainy](https://github.com/syslink-s
 * [Leaflet](https://leafletjs.com/) - Interactive Maps
 * [Font Awesome](https://fontawesome.com/) - Icons
 
+## Notes
+There is Netlify Configuration, If you would like to host on netlify you can else just delete the configuration.
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 [contributors-shield]: https://img.shields.io/github/contributors/syslink-sh/rainy.svg?style=for-the-badge
