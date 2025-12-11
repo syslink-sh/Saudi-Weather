@@ -54,14 +54,9 @@
 
 Rainy is a modern weather application featuring:
 
-* **Real-time Weather** — Current temperature, conditions, wind, humidity, pressure, and visibility
-* **Live Radar** — Interactive precipitation and cloud cover radar map powered by RainViewer
-* **Forecasts** — 24-hour hourly forecast and 7-day daily forecast
-* **Dynamic Backgrounds** — Beautiful animated backgrounds that change based on weather and time of day
-* **City Search** — Search any city worldwide with autocomplete
-* **Geolocation** — Automatically detects your location on load
-* **PWA Support** — Install as an app on phones and computers with offline support
-* **Mobile Optimized** — Touch-friendly UI with safe area support for notched devices
+* **Real-time Weather** — Current temperature, feels like, wind speed, humidity, pressure, and visibility
+* **Live Radar** — Interactive precipitation and cloud cover radar map
+* **Hourly Forecast** — 24-hour breakdown to plan your day
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
