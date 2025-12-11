@@ -1,13 +1,20 @@
 {
+    "id": "rainy-weather-app",
     "name": "Rainy - Weather App",
     "short_name": "Rainy",
     "description": "A beautiful and fast weather application providing real-time forecasts",
+    "lang": "en",
+    "dir": "ltr",
     "start_url": "/",
+    "scope": "/",
     "display": "standalone",
+    "display_override": ["window-controls-overlay", "standalone", "browser"],
     "background_color": "#4facfe",
     "theme_color": "#4facfe",
     "orientation": "portrait-primary",
-    "scope": "/",
+    "launch_handler": {
+        "client_mode": "navigate-existing"
+    },
     "icons": [
         {
             "src": "/icons/icon-72x72.png",
@@ -84,6 +91,6 @@
             "icons": [{ "src": "/icons/icon-192x192.png", "sizes": "192x192" }]
         }
     ],
-    "related_applications": [],
+    "handle_links": "preferred",
     "prefer_related_applications": false
 }

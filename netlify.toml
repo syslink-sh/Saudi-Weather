@@ -30,6 +30,38 @@
   to = "/.netlify/functions/api/reverse-geocode"
   status = 200
 
+# Serve static files directly (don't redirect to index.html)
+[[redirects]]
+  from = "/icons/*"
+  to = "/icons/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/screenshots/*"
+  to = "/screenshots/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/css/*"
+  to = "/css/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/js/*"
+  to = "/js/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/manifest.json"
+  to = "/manifest.json"
+  status = 200
+
+[[redirects]]
+  from = "/sw.js"
+  to = "/sw.js"
+  status = 200
+
+# SPA fallback (must be last)
 [[redirects]]
   from = "/*"
   to = "/index.html"

@@ -49,7 +49,11 @@
 
 ## About The Project
 
-[![Rainy Weather App][product-screenshot]](https://rainy.syslink.dev)
+<div align="center">
+  <img src="ghimages/websitescreenshot.png" alt="Rainy Weather App Desktop" width="60%" style="max-width:700px; min-width:320px; border-radius:12px; box-shadow:0 2px 16px #0002; margin-bottom:1em;" />
+  <br>
+  <img src="ghimages/websitemobile.png" alt="Rainy Weather App Mobile" width="260" style="border-radius:12px; box-shadow:0 2px 16px #0002; margin-top:1em;" />
+</div>
 
 Rainy is a modern weather application featuring:
 

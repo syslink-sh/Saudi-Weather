@@ -22,6 +22,72 @@ document.addEventListener('DOMContentLoaded', () => {
     const dailyForecastEl = document.getElementById('daily-forecast');
 
     let searchTimeout;
+    let currentLat = null;
+    let currentLon = null;
+    let currentCityName = null;
+
+    // Register for periodic sync and setup online/offline handlers
+    const setupServiceWorkerCommunication = async () => {
+        if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+            // Listen for messages from service worker
+            navigator.serviceWorker.addEventListener('message', (event) => {
+                if (event.data && event.data.type === 'PERIODIC_SYNC') {
+                    console.log('[App] Received periodic sync - refreshing weather data');
+                    if (currentLat && currentLon) {
+                        fetchWeather(currentLat, currentLon, currentCityName, true);
+                    }
+                }
+                if (event.data && event.data.type === 'CACHE_REFRESHED') {
+                    console.log('[App] Cache has been refreshed');
+                }
+            });
+
+            // Register periodic sync if supported
+            if ('periodicSync' in navigator.serviceWorker.registration) {
+                try {
+                    await navigator.serviceWorker.ready;
+                    const registration = await navigator.serviceWorker.getRegistration();
+                    const status = await navigator.permissions.query({
+                        name: 'periodic-background-sync',
+                    });
+                    if (status.state === 'granted') {
+                        await registration.periodicSync.register('weather-periodic-sync', {
+                            minInterval: 60 * 60 * 1000, // 1 hour
+                        });
+                        console.log('[App] Periodic sync registered');
+                    }
+                } catch (error) {
+                    console.log('[App] Periodic sync registration failed:', error);
+                }
+            }
+        }
+    };
+
+    // Handle online/offline status changes
+    const setupConnectivityListeners = () => {
+        window.addEventListener('online', () => {
+            console.log('[App] Back online - notifying service worker to refresh cache');
+            if (navigator.serviceWorker && navigator.serviceWorker.controller) {
+                navigator.serviceWorker.controller.postMessage({
+                    type: 'ONLINE_STATUS_CHANGED',
+                    isOnline: true
+                });
+            }
+            // Also refresh weather data
+            if (currentLat && currentLon) {
+                fetchWeather(currentLat, currentLon, currentCityName, true);
+            }
+        });
+
+        window.addEventListener('offline', () => {
+            console.log('[App] Went offline');
+            showError('You are offline. Showing cached data.');
+        });
+    };
+
+    // Initialize service worker communication
+    setupServiceWorkerCommunication();
+    setupConnectivityListeners();
 
     const getWeatherIconClass = (code) => {
         if (code === 0 || code === 1) return 'fa-sun';
@@ -416,8 +482,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    const fetchWeather = async (lat, lon, name) => {
-        globalLoader.classList.remove('hidden');
+    const fetchWeather = async (lat, lon, name, silent = false) => {
+        if (!silent) {
+            globalLoader.classList.remove('hidden');
+        }
+        
+        // Store current location for refresh
+        currentLat = lat;
+        currentLon = lon;
+        currentCityName = name;
+        
         try {
             const apiBase = window.appConfig?.apiBaseUrl || '/api';
             const response = await fetch(`${apiBase}/weather?lat=${lat}&lon=${lon}`);
@@ -449,9 +523,11 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (error) {
             showError(error.message);
         } finally {
-            setTimeout(() => {
-                globalLoader.classList.add('hidden');
-            }, 500);
+            if (!silent) {
+                setTimeout(() => {
+                    globalLoader.classList.add('hidden');
+                }, 500);
+            }
         }
     };
 
