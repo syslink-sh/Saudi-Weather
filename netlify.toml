@@ -16,8 +16,23 @@
 
 # Redirect API calls to serverless functions
 [[redirects]]
-  from = "/api/*"
-  to = "/.netlify/functions/api/:splat"
+  from = "/api/health"
+  to = "/.netlify/functions/api/health"
+  status = 200
+
+[[redirects]]
+  from = "/api/weather"
+  to = "/.netlify/functions/api/weather"
+  status = 200
+
+[[redirects]]
+  from = "/api/search"
+  to = "/.netlify/functions/api/search"
+  status = 200
+
+[[redirects]]
+  from = "/api/reverse-geocode"
+  to = "/.netlify/functions/api/reverse-geocode"
   status = 200
 
 # SPA fallback - serve index.html for all routes
