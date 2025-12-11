@@ -92,5 +92,55 @@
         }
     ],
     "handle_links": "preferred",
-    "prefer_related_applications": false
+    "prefer_related_applications": false,
+    "related_applications": [
+        {
+            "platform": "play",
+            "url": "https://play.google.com/store/apps/details?id=com.faisalalsharif.rainy",
+            "id": "com.example.rainy"
+        }
+    ],
+    "file_handlers": [
+        {
+            "action": "/open-file",
+            "accept": { "application/json": [".json"] },
+            "name": "Open Weather JSON"
+        }
+    ],
+    "protocol_handlers": [
+        {
+            "protocol": "web+rainy",
+            "url": "/?weather=%s"
+        }
+    ],
+    "share_target": {
+        "action": "/share",
+        "method": "POST",
+        "enctype": "multipart/form-data",
+        "params": {
+            "title": "title",
+            "text": "text",
+            "url": "url"
+        }
+    },
+    "iarc_rating_id": "eC1a2b3c4d5e6f7g8h9i0",
+    "widgets": [
+        {
+            "name": "Current Weather",
+            "description": "Show current weather on your desktop",
+            "url": "/widget/current-weather"
+        }
+    ],
+    "edge_side_panel": {
+        "preferred_width": 400,
+        "title": "Rainy Weather Side Panel",
+        "icon": "/icons/icon-192x192.png"
+    },
+    "note_taking": {
+        "new_note_url": "/notes/new"
+    },
+    "scope_extensions": [
+        "https://api.rainviewer.com",
+        "https://open-meteo.com"
+    ]
 }
