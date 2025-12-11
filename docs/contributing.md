@@ -195,17 +195,6 @@ curl "http://localhost:3005/api/weather?lat=40.7128&lon=-74.0060"
 curl "http://localhost:3005/api/search?q=london"
 ```
 
-## Project Roadmap
-
-Planned features (contributions welcome!):
-
-- [ ] Weather alerts and notifications
-- [ ] Multiple saved locations
-- [ ] Weather widgets
-- [ ] Unit preference (Celsius/Fahrenheit)
-- [ ] Dark mode toggle
-- [ ] Language localization
-
 ## Getting Help
 
 - Open an [issue](https://github.com/syslink-sh/rainy/issues) for questions

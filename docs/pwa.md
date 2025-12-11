@@ -193,12 +193,3 @@ To force users to get updates, increment the cache version:
 // In sw.js
 const STATIC_CACHE = 'rainy-static-v2';  // Bump version
 ```
-
-## Future Enhancements
-
-Planned PWA features:
-
-- [ ] Push notifications for weather alerts
-- [ ] Background sync for saved locations
-- [ ] Share target API
-- [ ] Shortcuts for favorite cities

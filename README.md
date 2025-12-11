@@ -10,7 +10,7 @@
   <p align="center">
     A beautiful, fast, and immersive weather application that provides real-time forecasts for any city in the world.
     <br />
-    <a href="https://github.com/syslink-sh/rainy"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/syslink-sh/rainy/tree/main/docs"><strong>Explore the docs »</strong></a>
     <br />
     <br />
     <a href="https://rainy.syslink.dev">View Demo</a>
@@ -40,7 +40,6 @@
     <li><a href="#usage">Usage</a></li>
     <li><a href="#pwa-installation">PWA Installation</a></li>
     <li><a href="#api-endpoints">API Endpoints</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
@@ -161,21 +160,6 @@ Configuration is handled via `server/config.js` and `public/js/config.js`:
 | `GET /api/weather?lat=&lon=` | Get weather data for coordinates |
 | `GET /api/search?q=` | Search cities by name |
 | `GET /api/reverse-geocode?lat=&lon=` | Get city name from coordinates |
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-## Roadmap
-
-- [x] Real-time weather data
-- [x] Interactive radar map
-- [x] Hourly and daily forecasts
-- [x] PWA support with offline capabilities
-- [x] Mobile responsive design
-- [ ] Weather alerts and notifications
-- [ ] Multiple saved locations
-- [ ] Weather widgets
-
-See the [open issues](https://github.com/syslink-sh/rainy/issues) for a full list of proposed features (and known issues).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
