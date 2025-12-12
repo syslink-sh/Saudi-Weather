@@ -39,8 +39,11 @@ async function networkOnlyStrategy(request) {
     } catch (error) {
         if (DEBUG) console.log('[Service Worker] Network failed for request:', request.url);
 
+        // Unified offline response text as requested
+        const offlineText = 'OFFLINE NO INTERNET';
+
         if (request.mode === 'navigate') {
-            const offlineHtml = `<!doctype html><html><head><meta charset="utf-8"><title>Offline</title></head><body><h1>Offline</h1><p>The app is offline. No caching is enabled.</p></body></html>`;
+            const offlineHtml = `<!doctype html><html><head><meta charset="utf-8"><title>Offline</title></head><body><h1>OFFLINE NO INTERNET</h1><p>OFFLINE NO INTERNET</p></body></html>`;
             return new Response(offlineHtml, {
                 status: 503,
                 headers: { 'Content-Type': 'text/html' }
@@ -48,13 +51,13 @@ async function networkOnlyStrategy(request) {
         }
 
         if (request.headers.get('accept')?.includes('application/json') || request.url.includes('/api/')) {
-            return new Response(JSON.stringify({ error: 'offline', message: 'Resource unavailable offline.' }), {
+            return new Response(JSON.stringify({ error: 'offline', message: offlineText }), {
                 status: 503,
                 headers: { 'Content-Type': 'application/json' }
             });
         }
 
-        return new Response('Offline: resource unavailable', {
+        return new Response(offlineText, {
             status: 503,
             headers: { 'Content-Type': 'text/plain' }
         });
