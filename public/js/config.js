@@ -39,3 +39,14 @@ window.appConfig = config;
 if (window.location.hostname === 'localhost') {
     console.log('🌦️ Rainy Config:', config);
 }
+
+// Initialize Vercel Speed Insights
+// Automatically tracks Web Vitals and performance metrics
+// Only runs on the client-side in the browser
+if (typeof window !== 'undefined') {
+    // Speed Insights script is loaded via the index.html tag
+    // The window.va function is already defined in the HTML
+    if (typeof window.va === 'function') {
+        console.log('🌦️ Vercel Speed Insights initialized');
+    }
+}
