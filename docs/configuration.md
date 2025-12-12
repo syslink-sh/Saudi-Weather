@@ -133,6 +133,8 @@ While config files are the primary configuration method, these environment varia
 | `PORT` | Override server port | `8080` |
 | `ALLOWED_ORIGINS` | CORS origins (comma-separated) | `https://example.com,https://app.example.com` |
 
+| `DEBUG` | Enable verbose debug logging on server | `true` or `false` |
+
 Example:
 
 ```bash

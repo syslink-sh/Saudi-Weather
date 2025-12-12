@@ -36,6 +36,9 @@ module.exports = {
         maxRequests: 100,
     },
 
+    // Debugging flag (set DEBUG=true to enable verbose logs in development)
+    debug: process.env.DEBUG === 'true' || env !== 'production',
+
     // Cache settings (in seconds)
     cache: {
         weather: 300,      // 5 minutes

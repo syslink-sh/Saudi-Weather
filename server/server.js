@@ -9,18 +9,22 @@ const app = express();
 const PORT = config.server.port;
 const isProduction = config.server.env === 'production';
 
+const log = (...args) => { if (config.debug) console.log(...args); };
+const warn = (...args) => { if (config.debug) console.warn(...args); };
+const errlog = (...args) => { console.error(...args); };
+
 // CORS configuration
 const corsOptions = {
     origin: function (origin, callback) {
         // Allow requests with no origin (mobile apps, curl, same-origin, etc.)
         if (!origin) return callback(null, true);
-        
-        if (config.cors.allowedOrigins.includes(origin)) {
-            callback(null, true);
-        } else {
-            console.warn(`CORS blocked origin: ${origin}`);
-            callback(new Error('Not allowed by CORS'));
-        }
+
+            if (config.cors.allowedOrigins.includes(origin)) {
+                callback(null, true);
+            } else {
+                warn(`CORS blocked origin: ${origin}`);
+                callback(new Error('Not allowed by CORS'));
+            }
     },
     credentials: true,
     methods: ['GET', 'POST', 'OPTIONS'],
@@ -66,7 +70,7 @@ app.get('*', (req, res) => {
 
 // Global error handler
 app.use((err, req, res, next) => {
-    console.error(`[Error] ${err.message}`);
+    errlog(`[Error] ${err.message}`);
     res.status(err.status || 500).json({
         error: isProduction ? 'Internal Server Error' : err.message,
     });
@@ -74,14 +78,14 @@ app.use((err, req, res, next) => {
 
 // Graceful shutdown
 process.on('SIGTERM', () => {
-    console.log('SIGTERM received, shutting down gracefully...');
+    log('SIGTERM received, shutting down gracefully...');
     process.exit(0);
 });
 
 app.listen(PORT, () => {
-    console.log(`🌦️  Rainy Server running at http://localhost:${PORT}`);
-    console.log(`   Environment: ${config.server.env}`);
-    console.log(`   Static files: ${publicPath}`);
+    log(`🌦️  Rainy Server running at http://localhost:${PORT}`);
+    log(`   Environment: ${config.server.env}`);
+    log(`   Static files: ${publicPath}`);
 });
 
 module.exports = app;
