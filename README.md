@@ -70,12 +70,6 @@ Server configuration is in [src/server/config.js](src/server/config.js).
 - The frontend SPA is under `/public` and served by the Express server. Arabic localized pages are available under `/public/ar/`.
 - City dataset used by the client and server is at [public/assets/saudi_cities.json](public/assets/saudi_cities.json).
 
-## Security and Deployment Notes
-
-- CSP headers are computed to allow only hashed inline scripts.
-- HSTS and rate limiting are enabled; ensure production configuration is set and origins are restricted.
-- Use HTTPS and a managed Redis (optional) for production caching.
-
 ## Scripts
 
 - `npm start` — run the Node server
@@ -85,9 +79,6 @@ Server configuration is in [src/server/config.js](src/server/config.js).
 
 Contributions are welcome. Please fork the repo and file a PR with changes.
 
-## License
-
-Licensed under ISC — see LICENSE in the repo.
 
 ## Contact
 
