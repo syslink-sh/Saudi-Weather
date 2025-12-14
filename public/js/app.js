@@ -137,7 +137,24 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
         locations.forEach(loc => {
-            const displayName = isArabic && loc.arabic ? loc.arabic : loc.name;
+            let displayName;
+            if (isArabic) {
+                // Strict Arabic: If loc.arabic exists use it, else if loc.name is Arabic script use it, else generic.
+                if (loc.arabic) displayName = loc.arabic;
+                else if (/[\u0600-\u06FF]/.test(loc.name)) displayName = loc.name;
+                else displayName = loc.name; // Temporary, but ideally we want strict. The user said NO english.
+                // Actually, if we want NO English, and we have only English name, we might be stuck.
+                // But most Saudi cities have Arabic names in our JSON.
+                // Let's use the loose check:
+                displayName = loc.arabic || loc.name;
+            } else {
+                displayName = loc.name;
+            }
+
+            // Correction for strict user requirement "NO EN IN ARABIC"
+            if (isArabic && !loc.arabic && !/[\u0600-\u06FF]/.test(displayName)) {
+                displayName = "مدينة غير معربة"; // "Unlocalized City"
+            }
             const div = document.createElement('div');
             div.className = 'search-result-item';
             const citySpan = document.createElement('span');

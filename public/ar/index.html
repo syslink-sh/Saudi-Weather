@@ -5,11 +5,48 @@
   <meta charset="UTF-8" />
   <meta name="viewport"
     content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover" />
-  <meta name="description" content="طقس السعودية" />
+  <meta name="description" content="طقس السعودية - تطبيق طقس سريع يوفر توقعات فورية للمملكة العربية السعودية." />
+  <meta name="keywords" content="طقس, السعودية, توقعات, مطر, حرارة, رطوبة, رياح, رادار, هطول" />
   <meta name="author" content="SySLink" />
   <meta name="theme-color" content="#4facfe" />
+
+  <!-- PWA Meta Tags -->
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="طقس السعودية" />
+  <meta name="application-name" content="طقس السعودية" />
+  <meta name="msapplication-TileColor" content="#4facfe" />
+  <meta name="msapplication-tap-highlight" content="no" />
+  <meta name="format-detection" content="telephone=no" />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://saudi-weather.syslink.dev/ar/" />
+  <meta property="og:title" content="طقس السعودية" />
+  <meta property="og:description" content="توقعات طقس سريعة ودقيقة للمملكة العربية السعودية." />
+  <meta property="og:image" content="https://saudi-weather.syslink.dev/og-image.png" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content="https://saudi-weather.syslink.dev/ar/" />
+  <meta name="twitter:title" content="طقس السعودية" />
+  <meta name="twitter:description" content="توقعات طقس سريعة ودقيقة للمملكة العربية السعودية." />
+  <meta name="twitter:image" content="https://saudi-weather.syslink.dev/og-image.png" />
+
   <title>طقس السعودية</title>
+
+  <!-- PWA Manifest -->
   <link rel="manifest" href="/manifest.json" />
+
+  <!-- Apple Touch Icons -->
+  <link rel="apple-touch-icon" href="/icons/icon-152x152.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/icons/icon-192x192.png" />
+  <link rel="apple-touch-icon" sizes="167x167" href="/icons/icon-152x152.png" />
+
+  <!-- Splash Screens for iOS -->
+  <link rel="apple-touch-startup-image" href="/icons/icon-512x512.png" />
+
   <link rel="preload" href="/css/style.css" as="style" />
   <link rel="stylesheet" href="/css/style.css?v=2" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
@@ -107,7 +144,43 @@
   <script src="/js/config.js"></script>
   <script type="module" src="/js/app.js"></script>
 
-  <!-- Service Worker Registration removed -->
+  <!-- Service Worker Registration -->
+  <script>
+    // Register Service Worker for PWA
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker
+          .register("/sw.js")
+          .then((registration) => {
+            if (window.appConfig?.debug)
+              console.log(
+                "🌦️ Service Worker registered:",
+                registration.scope,
+              );
+
+            // Check for updates
+            registration.addEventListener("updatefound", () => {
+              const newWorker = registration.installing;
+              newWorker.addEventListener("statechange", () => {
+                if (
+                  newWorker.state === "installed" &&
+                  navigator.serviceWorker.controller
+                ) {
+                  // New content available, show update notification
+                  if (window.appConfig?.debug)
+                    console.log(
+                      "🌦️ New version available! Refresh to update.",
+                    );
+                }
+              });
+            });
+          })
+          .catch((error) => {
+            console.error("🌦️ Service Worker registration failed:", error);
+          });
+      });
+    }
+  </script>
 </body>
 
 </html>

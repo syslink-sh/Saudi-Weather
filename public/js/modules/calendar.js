@@ -29,11 +29,13 @@ export const loadCalendar = async () => {
         let seasonName = '';
         let monthValue = '';
         if (langCode === 'ar') {
-            seasonName = entry['الفصل (حسب الزعاق)'] || entry.Season_EN || '';
-            monthValue = entry['الموسم المحلي والوصف المختصر'] || entry.Season_EN || '';
+            // Strict Arabic: Fallback to generic Arabic or empty, never English
+            seasonName = entry['الفصل (حسب الزعاق)'] || 'فصل غير محدد';
+            monthValue = entry['الموسم المحلي والوصف المختصر'] || '';
         } else {
-            seasonName = entry.Season_EN || entry['الفصل (حسب الزعاق)'] || '';
-            monthValue = entry.SeasonDescription_EN || entry.Season_EN || '';
+            // Strict English
+            seasonName = entry.Season_EN || 'Unknown Season';
+            monthValue = entry.SeasonDescription_EN || '';
         }
 
         const content = document.createElement('div');

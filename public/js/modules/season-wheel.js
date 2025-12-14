@@ -77,12 +77,24 @@ export const renderSeasonWheel = (containerId) => {
         return d;
     };
 
+    const describeArcCurve = (x, y, radius, startAngle, endAngle) => {
+        const start = polarToCartesian(x, y, radius, endAngle);
+        const end = polarToCartesian(x, y, radius, startAngle);
+        const largeArcFlag = endAngle - startAngle <= 180 ? "0" : "1";
+        // Just the arc, no line to center
+        const d = [
+            "M", start.x, start.y,
+            "A", radius, radius, 0, largeArcFlag, 0, end.x, end.y
+        ].join(" ");
+        return d;
+    };
+
     // Total width/height
-    const size = 420; // Increased from 300
+    const size = 420;
     const cx = size / 2;
     const cy = size / 2;
-    const rSeason = 160; // Increased from 120
-    const rMonth = 185;  // Increased from 140
+    const rSeason = 160;
+    const rMonth = 185;
 
     // We need to map Month Number to Start Angle.
     // Month 9 center is 0 deg (Top).
@@ -106,37 +118,78 @@ export const renderSeasonWheel = (containerId) => {
     let svgContent = '';
 
     // 1. Draw Season Slices
-    seasons.forEach(season => {
-        // Consecutive months in our specific order logic:
-        // Summer: 9,10,11. 
-        // Start Angle = Center of 9 MINUS 15 deg.
-        // End Angle = Center of 11 PLUS 15 deg.
+    // Helper: Get days in month
+    const getDaysInMonth = (m, y) => new Date(y, m, 0).getDate();
 
+    // Helper: Darken color
+    const darkenColor = (hex, percent) => {
+        let r = parseInt(hex.substring(1, 3), 16);
+        let g = parseInt(hex.substring(3, 5), 16);
+        let b = parseInt(hex.substring(5, 7), 16);
+        r = parseInt(r * (100 - percent) / 100); r = (r < 0) ? 0 : r;
+        g = parseInt(g * (100 - percent) / 100); g = (g < 0) ? 0 : g;
+        b = parseInt(b * (100 - percent) / 100); b = (b < 0) ? 0 : b;
+        const toHex = (c) => (c < 16 ? "0" : "") + c.toString(16);
+        return "#" + toHex(r) + toHex(g) + toHex(b);
+    };
+
+    seasons.forEach(season => {
         const firstM = season.months[0];
         const lastM = season.months[season.months.length - 1];
 
         const startA = getMonthCenterAngle(firstM) - 15;
-        // Handle wrap around for end angle logic
-        // Only Fall wraps: 12, 1, 2.
-        // center(12)=90, center(1)=120, center(2)=150.
-        // start=75, end=165. Correct.
-
         let endA = getMonthCenterAngle(lastM) + 15;
 
-        // Render Path
         // Check if this season contains current month
         const isCurrent = season.months.includes(currentMonth);
         const opacity = isCurrent ? 1 : 0.6;
-        const stroke = isCurrent ? '#333' : 'none';
-        const strokeWidth = isCurrent ? 2 : 0;
 
-        const path = describeArc(cx, cy, rSeason, startA, endA);
+        const pathFull = describeArc(cx, cy, rSeason, startA, endA);
 
-        svgContent += `
-            <path d="${path}" fill="${season.color}" stroke="${stroke}" stroke-width="${strokeWidth}" fill-opacity="${opacity}" />
-        `;
+        // 1. Draw Full Season (Background + Standard Outline)
+        svgContent += `<path d="${pathFull}" fill="${season.color}" stroke="#000" stroke-width="1" fill-opacity="${opacity}" />`;
 
-        // Label
+        if (isCurrent) {
+            // PROGRESS CALCULATION
+            const now = new Date();
+            const currentYear = now.getFullYear();
+            let startYear = currentYear;
+            if (season.months.includes(12) && season.months.includes(1) && currentMonth <= 2) {
+                startYear = currentYear - 1;
+            }
+
+            const startDate = new Date(startYear, firstM - 1, 1);
+
+            let totalDays = 0;
+            season.months.forEach(m => {
+                let mYear = startYear;
+                if (season.months.includes(12) && m < 12) mYear = startYear + 1;
+                totalDays += getDaysInMonth(m, mYear);
+            });
+
+            const diffTime = now - startDate;
+            const daysPast = Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1;
+
+            let progress = daysPast / totalDays;
+            if (progress < 0) progress = 0;
+            if (progress > 1) progress = 1;
+
+            // Split Arcs
+            let totalAngle = endA - startA;
+            if (totalAngle < 0) totalAngle += 360;
+
+            const anglePast = totalAngle * progress;
+            const splitAngle = startA + anglePast;
+
+            // 2. Draw Progress Curve (Darker Outline, Outer Rim Only)
+            const pastColor = darkenColor(season.color, 40);
+            const curvePast = describeArcCurve(cx, cy, rSeason, startA, splitAngle);
+
+            // Overlay the progress ring on the edge
+            svgContent += `<path d="${curvePast}" fill="none" stroke="${pastColor}" stroke-width="8" stroke-linecap="round" />`;
+        }
+
+        // Label rendering (remains same)
         // Angle for text is midpoint
         // Handle wrap-around for Summer (Start > End implies crossing 0)
         let normalizedStart = startA;
