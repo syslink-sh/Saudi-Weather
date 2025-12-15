@@ -1,4 +1,53 @@
-Saudi Weather — API Documentation
+Saudi Weather — Project Concept & API Documentation
+
+==================================================
+1. PROJECT CONCEPT & ANDROID DESIGN GUIDELINES
+==================================================
+
+## The Idea
+Saudi Weather is a hyper-localized, visually immersive weather experience tailored for the Kingdom of Saudi Arabia. Unlike generic weather apps, it integrates local cultural elements—specifically an agricultural "Season Wheel" that aligns with the Hijri/Gregorian seasonal transitions relevant to the region. The core philosophy is to make the weather "feel" alive through dynamic, mood-based aesthetics that reflect the sky outside.
+
+## Visual Design & "Looks" (Android Implementation)
+
+The Android application should mirror the web version's "Glassmorphism" and "Atmospheric" design language.
+
+### 1. Immersive Animated Backgrounds
+The app is NOT a static list of numbers. The background must take up the entire screen (edge-to-edge) and reflect the current weather condition and time of day.
+- **Dynamic Gradients**: Use vertical linear gradients that shift slowly.
+  - *Clear Day*: Bright Blue -> Cyan (Top to Bottom).
+  - *Clear Night*: Deep Navy -> Midnight Blue.
+  - *Sunset/Sunrise*: Orange/Purple gradients.
+- **Particle Systems & Animations**:
+  - *Sun/Moon*: An animated, pulsing orb placed in the upper third.
+  - *Clouds*: Semi-transparent layers moving at different speeds (parallax effect) using SVGs or Drawables. (See `weather-bg.cloudy` in CSS).
+  - *Rain/Snow*: Canvas-based particle systems for falling drops/flakes.
+  - *Thunder*: Flashing background overlay (white opacity flash).
+
+### 2. Glassmorphism UI
+All specialized UI elements (Search bar, Forecast cards, Detail grid) must float *above* the background.
+- **Material**: Semi-transparent white (Day) or dark slate (Night) with high background blur.
+  - *Day*: `rgba(255, 255, 255, 0.7)` + Blur
+  - *Night*: `rgba(15, 23, 42, 0.7)` + Blur
+- **Shadows**: Soft, diffused shadows to lift elements off the background.
+- **Borders**: Subtle 1px translucent borders to define edges.
+
+### 3. Key Components
+- **Main Temperature**: Massive, thin typography (e.g., Roboto Light or system default, ~100sp) centered in the upper view.
+- **The Season Wheel**: A custom Canvas view or SVG component.
+  - *Structure*: A donut chart divided into 4 seasons (Winter, Spring, Summer, Autumn).
+  - *Visual*: Each season has a specific pastel color.
+  - *Progress*: The *outer rim* of the current season slice should have a thicker, darker stroke indicating how far into the season we are.
+- **Forecast Lists**: Horizontal scrolling for hourly, vertical for daily. Minimalist icons.
+
+### 4. Typography & Icons
+- Use clean, modern sans-serif fonts.
+- Use filled or outlined weather icons that match the "Glass" aesthetic or high-quality SVG paths (see `public/icons` or equivalent).
+
+---
+
+==================================================
+2. API DOCUMENTATION
+==================================================
 
 Base URL
 - All API routes are mounted under the `/api` path. Example base: `https://saudi-weather.syslink.dev/api`
