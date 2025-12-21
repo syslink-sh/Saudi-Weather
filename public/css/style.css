@@ -1573,15 +1573,17 @@ main {
     font-size: 0.9rem;
   }
 
-  /* Prayer times mobile adjustments */
+  /* Prayer times mobile adjustments: ensure they don't scroll */
   #prayer-times-forecast {
-    overflow-x: auto;
-    justify-content: flex-start;
+    overflow-x: hidden;
+    justify-content: space-evenly;
   }
 
   #prayer-times-forecast .hourly-item {
-    min-width: 80px;
-    font-size: 0.85rem;
+    min-width: 0;
+    flex: 1;
+    padding: 0 4px;
+    font-size: 0.8rem;
   }
 
   #prayer-times-forecast .hourly-item .time {
@@ -1754,8 +1756,9 @@ main {
 
   /* Extra small: prayer times */
   #prayer-times-forecast .hourly-item {
-    min-width: 60px;
-    font-size: 0.8rem;
+    min-width: 0;
+    padding: 0 2px;
+    font-size: 0.75rem;
   }
 
   /* Extra small: hourly weather descriptions */
