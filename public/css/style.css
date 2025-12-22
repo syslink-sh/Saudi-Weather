@@ -664,7 +664,9 @@ header {
 
 .location-display h2 {
   margin: 0;
-  font-size: 2rem;
+  font-size: 3.5rem;
+  font-weight: 700;
+  line-height: 1.1;
 }
 
 .location-display p {
@@ -1393,7 +1395,7 @@ main {
   }
 
   .location-display h2 {
-    font-size: 1.6rem;
+    font-size: 2.8rem;
   }
 
   .temp-wrapper h1 {
@@ -1463,7 +1465,7 @@ main {
   }
 
   .location-display h2 {
-    font-size: 1.4rem;
+    font-size: 2.4rem;
   }
 
   .location-display #current-time {
@@ -1702,7 +1704,7 @@ main {
   }
 
   .location-display h2 {
-    font-size: 1.2rem;
+    font-size: 2.2rem;
   }
 
   .temp-wrapper h1 {

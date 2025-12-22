@@ -7,6 +7,19 @@ import { loadCalendar } from './modules/calendar.js';
 import { renderSeasonWheel } from './modules/season-wheel.js';
 
 document.addEventListener('DOMContentLoaded', () => {
+    // --- Service Worker Registration ---
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js')
+                .then(reg => {
+                    if (config.debug) console.log('🌦️ SW Registered:', reg.scope);
+                })
+                .catch(err => {
+                    console.error('🌦️ SW Registration failed:', err);
+                });
+        });
+    }
+
     const userLang = document.documentElement.lang || 'en';
 
     const locale = userLang.startsWith('ar') ? 'ar-EG' : 'en-US';

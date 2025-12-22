@@ -8,10 +8,20 @@
     "start_url": "/",
     "scope": "/",
     "display": "standalone",
-    "display_override": ["window-controls-overlay", "standalone", "browser"],
+    "display_override": [
+        "tabbed",
+        "window-controls-overlay",
+        "standalone",
+        "browser"
+    ],
     "background_color": "#4facfe",
     "theme_color": "#4facfe",
     "orientation": "portrait-primary",
+    "scope_extensions": [
+        {
+            "origin": "https://saudi-weather.syslink.dev"
+        }
+    ],
     "launch_handler": {
         "client_mode": "navigate-existing"
     },
@@ -65,7 +75,10 @@
             "purpose": "maskable any"
         }
     ],
-    "categories": ["weather", "utilities"],
+    "categories": [
+        "weather",
+        "utilities"
+    ],
     "screenshots": [
         {
             "src": "/screenshots/screenshot-wide.png",
@@ -88,7 +101,12 @@
             "short_name": "My Location",
             "description": "Get weather for your current location",
             "url": "/",
-            "icons": [{ "src": "/icons/icon-192x192.png", "sizes": "192x192" }]
+            "icons": [
+                {
+                    "src": "/icons/icon-192x192.png",
+                    "sizes": "192x192"
+                }
+            ]
         }
     ],
     "handle_links": "preferred",
@@ -103,7 +121,11 @@
     "file_handlers": [
         {
             "action": "/open-file",
-            "accept": { "application/json": [".json"] },
+            "accept": {
+                "application/json": [
+                    ".json"
+                ]
+            },
             "name": "Open Weather JSON"
         }
     ],
